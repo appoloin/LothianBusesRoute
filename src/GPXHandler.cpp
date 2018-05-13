@@ -68,15 +68,17 @@ bool GPXHandler :: convertRoute()
 
 std::string GPXHandler :: createCommand()
 {
-	// gpsbabel -i unicsv,fields=lat+lon+description -f file.csv -o gpx -F file.gpx
+	//gpsbabel -i unicsv,fields=lat+lon+description -f file.csv -o gpx -F file.gpx
+	//gpsbabel -i gpx -f way1.gpx -x transform,trk=wpt -x nuketypes,waypoints -o gpx -F route1.gpx
+
 	//construct download command
 	std::string strCommand = "gpsbabel "; 						//Executable
 	strCommand +="-i unicsv,fields=lat+lon+name ";				//input file format
+	//strCommand +="-i csv ";	
+	strCommand +="-f ";											//input filename
+	strCommand +="\""+getFullInputPath()+"\" ";     				 //source folder and filename
 	//strCommand +="-x transform,trk=wpt  ";						//transform waypoints to route
 	//strCommand +="-x nuketypes,waypoints ";						//remove waypoints
-	//strCommand +="-x simplify,error ";					///
-	strCommand +="-f ";											//input filename
-	strCommand +="\""+getFullInputPath()+"\"";     				 //source folder and filename
 	strCommand +=" -o ";										//output
 	strCommand +=getOutputFileFormat();							//get output format
 	strCommand +=" -F ";										//Output filename
