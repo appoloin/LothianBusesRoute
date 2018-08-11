@@ -114,12 +114,14 @@ std::string DownloadHandler :: createCommand()
 {
 	//construct download command
 	std::string strCommand = "wget "; 		//downloader
+	strCommand +="--no-check-certificate ";
 	strCommand +="--show-progress "; 		//show download progress
 	strCommand +="--output-document=";		//destination
 	strCommand +=getFullOutputPath();     		//destination folder and filename
 
-	//url https://lothianbuses.co.uk/tfeopendata/service/10
-	strCommand +=" https://lothianbuses.co.uk/tfeopendata/service/"; //target url
+	//new url https://tfeapp.com/api/website/route.php?service_name=140
+	//strCommand +=" https://lothianbuses.co.uk/tfeopendata/service/"; //target url
+	strCommand +=" https://tfeapp.com/api/website/route.php?service_name=";
 	strCommand += _strBusRoute;			    ///route to download
 	Debug (" DownloadHandler :: createCommand = strCommand " << strCommand);
 

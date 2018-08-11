@@ -91,7 +91,7 @@ bool DataConverter :: parseData()
 
 	try
 	{
-		boost::regex regExp("({\"type\":\"(?:stop|waypoint)\".*?})" ); //break down into data rows
+		boost::regex regExp("\"latitude\":(.*?),\"longitude\":(.*?)},"); //break down into data rows
 		boost::match_results<std::string::const_iterator> match;
 		std::string::const_iterator start = _strRawData.begin();
 		std::string::const_iterator end = _strRawData.end();
@@ -103,13 +103,12 @@ bool DataConverter :: parseData()
 		//	Debug("DataConverter :: parseData - data " << strFound);
 
 			/*Example output
-			 *  {"type":"stop","lat":"55.90409","lng":"-3.261031","stop":{"sms":"36298683","atco_code":"6200201455","name":"Bonaly Rd at Grant Ave","locality":null,"orientation":170,"direction":"S"}
-			 *  {"type":"waypoint","lat":"55.9021","lng":"-3.25948"}
-			 */
+			*{"id":"6280302490","name":"Penicuik Centre","sms":"64324373","identifier":null,"direction":"E","latitude":55.82796,"longitude":-3.221642},
+			*{"id":"6280325170","name":"Penicuik Centre","sms":"64324374","identifier":null,"direction":"W","latitude":55.82784,"longitude":-3.221526}
+			*/
 
 			//get elements
-			boost::regex regExp2(
-				"\"lat\":\"(\\d+\\S?\\d+)\",\"lng\":\"(\\S?\\d+\\S?\\d+)\"(?:,[\\s\\d\\S\\D]*\"name\":\"([\\s\\S\\d\\D]*)\",)?");
+			boost::regex regExp2("\"latitude\":(.*?),\"longitude\":(.*?)}|],");
 			boost::match_results<std::string::const_iterator> match2;
 			if (boost::regex_search(strFound ,match2,regExp2))
 			{
@@ -171,7 +170,7 @@ bool DataConverter :: writeData()
 			std::ofstream fileData;
 			fileData.open (getFullOutputPath());
 			//first line data description
-			fileData<<"No,Latitude,Longitude,Name"<<std::endl;
+		//	fileData<<"No,Latitude,Longitude,Name"<<std::endl;
 
 			int i=1;
 			for(auto line : _vData)

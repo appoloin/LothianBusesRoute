@@ -9,6 +9,8 @@
 #include "GPXHandler.h"
 #include <cerrno>
 #include <string>
+#include <cstdlib>
+#include <sys/wait.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/posix_time/posix_time_io.hpp>
@@ -73,7 +75,7 @@ std::string GPXHandler :: createCommand()
 
 	//construct download command
 	std::string strCommand = "gpsbabel "; 						//Executable
-	strCommand +="-i unicsv,fields=lat+lon+name ";				//input file format
+	strCommand +="-i unicsv,fields=No+lat+lon+name ";				//input file format
 	//strCommand +="-i csv ";	
 	strCommand +="-f ";											//input filename
 	strCommand +="\""+getFullInputPath()+"\" ";     				 //source folder and filename
